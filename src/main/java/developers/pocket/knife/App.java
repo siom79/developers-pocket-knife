@@ -1,6 +1,6 @@
 package developers.pocket.knife;
 
-import developers.pocket.knife.main.MainFrame;
+import developers.pocket.knife.ui.MainFrame;
 import org.apache.log4j.PropertyConfigurator;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
