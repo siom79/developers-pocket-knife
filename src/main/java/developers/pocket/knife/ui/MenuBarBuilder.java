@@ -5,6 +5,7 @@ import developers.pocket.knife.lifecycle.LifeCycle;
 import developers.pocket.knife.ui.tools.base64.Base64UI;
 import developers.pocket.knife.ui.tools.base64.Base64UIModel;
 
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,8 @@ public class MenuBarBuilder {
     Messages messages;
     @Inject
     LifeCycle lifeCycle;
+    @Inject
+    Instance<Base64UI> base64UIInstance;
 
     public JMenuBar createMenuBar(Container contentPane) {
         JMenuBar jMenuBar = new JMenuBar();
@@ -38,7 +41,7 @@ public class MenuBarBuilder {
             @Override
             public void actionPerformed(ActionEvent e) {
                 contentPane.removeAll();
-                Base64UI base64UI = new Base64UI(new Base64UIModel());
+                Base64UI base64UI = base64UIInstance.get();
                 JPanel jPanel = base64UI.buildUi();
                 contentPane.add(jPanel);
                 jPanel.repaint();

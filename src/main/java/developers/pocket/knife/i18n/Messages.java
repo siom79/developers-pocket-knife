@@ -22,4 +22,7 @@ public interface Messages {
 
     @Message(defaultMessage = "Base64")
     String base64();
+
+    @Message(defaultMessage = "Encode")
+    String encode();
 }
