@@ -25,4 +25,16 @@ public interface Messages {
 
     @Message(defaultMessage = "Encode")
     String encode();
+
+    @Message(defaultMessage = "The encoding {0} is not supported")
+    String unsupportedEncoding(String encoding);
+
+    @Message(defaultMessage = "Decode")
+    String decode();
+
+    @Message(defaultMessage = "Input")
+    String input();
+
+    @Message(defaultMessage = "Output")
+    String output();
 }
