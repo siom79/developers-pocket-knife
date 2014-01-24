@@ -4,7 +4,7 @@
 
     <groupId>developers-pocket-knife</groupId>
     <artifactId>developers-pocket-knife</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <licenses>
         <license>
@@ -169,7 +169,7 @@
         <developerConnection>scm:git:ssh://git@github.com/${github.account}/${project.artifactId}.git
         </developerConnection>
         <url>http://github.com/${github.account}/${project.artifactId}/tree/master/</url>
-        <tag>developers-pocket-knife-0.0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
