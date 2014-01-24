@@ -188,7 +188,7 @@
     <repositories>
         <repository>
             <id>cloudbees-public-snapshot</id>
-            <url>https://repository-${cloudbees.account}.forge.cloudbees.com/public-snapshot</url>
+            <url>https://repository-${cloudbees.account}.forge.cloudbees.com/snapshot</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -198,7 +198,7 @@
         </repository>
         <repository>
             <id>cloudbees-public-release</id>
-            <url>https://repository-${cloudbees.account}.forge.cloudbees.com/public-release</url>
+            <url>https://repository-${cloudbees.account}.forge.cloudbees.com/release</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
