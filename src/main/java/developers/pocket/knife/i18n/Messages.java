@@ -37,4 +37,19 @@ public interface Messages {
 
     @Message(defaultMessage = "Output")
     String output();
+
+    @Message(defaultMessage = "Validate XML file")
+    String validateXml();
+
+    @Message(defaultMessage = "XML File")
+    String xmlFile();
+
+    @Message(defaultMessage = "Choose")
+    String choose();
+
+    @Message(defaultMessage = "Schema File")
+    String schemaFile();
+
+    @Message(defaultMessage = "Validate")
+    String validate();
 }

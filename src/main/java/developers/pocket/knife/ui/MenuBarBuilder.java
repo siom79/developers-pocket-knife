@@ -4,6 +4,7 @@ import developers.pocket.knife.i18n.Messages;
 import developers.pocket.knife.lifecycle.LifeCycle;
 import developers.pocket.knife.ui.tools.base64.Base64UI;
 import developers.pocket.knife.ui.tools.base64.Base64UIModel;
+import developers.pocket.knife.ui.tools.validatexml.ValidateXmlUI;
 
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -20,6 +21,8 @@ public class MenuBarBuilder {
     LifeCycle lifeCycle;
     @Inject
     Instance<Base64UI> base64UIInstance;
+    @Inject
+    Instance<ValidateXmlUI> validateXmlUIInstance;
 
     public JMenuBar createMenuBar(Container contentPane) {
         JMenuBar jMenuBar = new JMenuBar();
@@ -32,24 +35,53 @@ public class MenuBarBuilder {
         JMenu fileMenu = new JMenu(messages.tools());
         fileMenu.setMnemonic(KeyEvent.VK_T);
         fileMenu.add(createToolsBase64MenuItem(contentPane));
+        fileMenu.add(createToolsValidateXmlMenuItem(contentPane));
         return fileMenu;
     }
 
-    private JMenuItem createToolsBase64MenuItem(final Container contentPane) {
-        JMenuItem exitFileMenuItem = new JMenuItem(messages.base64(), KeyEvent.VK_E);
-        exitFileMenuItem.addActionListener(new ActionListener() {
+    private JMenuItem createToolsValidateXmlMenuItem(final Container contentPane) {
+        JMenuItem menuItem = new JMenuItem(messages.validateXml(), KeyEvent.VK_X);
+        menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                contentPane.removeAll();
-                Base64UI base64UI = base64UIInstance.get();
-                JPanel jPanel = base64UI.buildUi();
-                contentPane.add(jPanel);
-                jPanel.repaint();
-                contentPane.validate();
-                contentPane.repaint();
+                replacePanel(contentPane, new PanelFactory() {
+                    @Override
+                    public JPanel createPanel() {
+                        return validateXmlUIInstance.get().buildUi();
+                    }
+                });
             }
         });
-        return exitFileMenuItem;
+        return menuItem;
+    }
+
+    private JMenuItem createToolsBase64MenuItem(final Container contentPane) {
+        JMenuItem menuItem = new JMenuItem(messages.base64(), KeyEvent.VK_B);
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                replacePanel(contentPane, new PanelFactory() {
+                    @Override
+                    public JPanel createPanel() {
+                        return base64UIInstance.get().buildUi();
+                    }
+                });
+            }
+        });
+        return menuItem;
+    }
+
+    private void replacePanel(Container contentPane, PanelFactory panelFactory) {
+        contentPane.removeAll();
+        JPanel jPanel = panelFactory.createPanel();
+        contentPane.add(jPanel);
+        jPanel.repaint();
+        contentPane.validate();
+        contentPane.repaint();
+    }
+
+    private interface PanelFactory {
+        JPanel createPanel();
     }
 
     private JMenu createFileMenu() {

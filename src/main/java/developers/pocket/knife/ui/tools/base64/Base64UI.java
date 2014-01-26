@@ -27,6 +27,7 @@ public class Base64UI extends JPanel {
     }
 
     private void buildComponents() {
+        inputField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonEncode.setText(messages.encode());
         buttonEncode.addActionListener(new ActionListener() {
             @Override
@@ -46,7 +47,8 @@ public class Base64UI extends JPanel {
             }
         });
         outputField.setEditable(false);
-        outputField.setBackground(Color.LIGHT_GRAY);
+        outputField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        outputField.setBackground(new Color(245, 245, 245));
     }
 
     public JPanel buildUi() {

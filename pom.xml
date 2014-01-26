@@ -87,9 +87,9 @@
                             <mainClass>developers.pocket.knife.App</mainClass>
                         </manifest>
                     </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <descriptors>
+                        <descriptor>src/main/assembly/complete.xml</descriptor>
+                    </descriptors>
                 </configuration>
                 <executions>
                     <execution>
