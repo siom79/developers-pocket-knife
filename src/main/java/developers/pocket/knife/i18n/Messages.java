@@ -52,4 +52,34 @@ public interface Messages {
 
     @Message(defaultMessage = "Validate")
     String validate();
+
+    @Message(defaultMessage = "The file {0} does not exist.")
+    String fileDoesNotExist(String filename);
+
+    @Message(defaultMessage = "Error")
+    String error();
+
+    @Message(defaultMessage = "You haven't provided any XML file.")
+    String noXmlFile();
+
+    @Message(defaultMessage = "You haven't provided any schema file.")
+    String noSchemaFile();
+
+    @Message(defaultMessage = "Type")
+    String type();
+
+    @Message(defaultMessage = "Line")
+    String line();
+
+    @Message(defaultMessage = "Column")
+    String column();
+
+    @Message(defaultMessage = "Message")
+    String message();
+
+    @Message(defaultMessage = "Information")
+    String information();
+
+    @Message(defaultMessage = "Validation was successful")
+    String validationSuccessful();
 }

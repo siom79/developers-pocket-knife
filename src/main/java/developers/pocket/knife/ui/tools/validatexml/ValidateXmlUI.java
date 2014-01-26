@@ -1,21 +1,19 @@
 package developers.pocket.knife.ui.tools.validatexml;
 
-import com.google.common.base.Optional;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import developers.pocket.knife.i18n.Messages;
-import jb5n.api.Message;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.text.html.Option;
-import java.awt.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 public class ValidateXmlUI extends JPanel {
     @Inject
@@ -32,6 +30,8 @@ public class ValidateXmlUI extends JPanel {
     private JButton buttonSchemaFile;
     @Inject
     private JButton buttonValidate;
+    @Inject
+    private JTable outputTable;
 
     @PostConstruct
     public void postConstruct() {
@@ -39,6 +39,57 @@ public class ValidateXmlUI extends JPanel {
     }
 
     private void buildComponents() {
+        final JPanel panelRef = this;
+        final AbstractTableModel tableModel = new AbstractTableModel() {
+            @Override
+            public int getRowCount() {
+                return model.getParserErrors().size();
+            }
+
+            @Override
+            public int getColumnCount() {
+                return 4;
+            }
+
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex) {
+                List<ValidateXmlUIModel.ParserError> parserErrors = model.getParserErrors();
+                ValidateXmlUIModel.ParserError parserError = parserErrors.get(rowIndex);
+                switch (columnIndex) {
+                    case 0:
+                        return parserError.getType();
+                    case 1:
+                        return parserError.getLine();
+                    case 2:
+                        return parserError.getColumn();
+                    case 3:
+                        return parserError.getMessage();
+                }
+                return "n.a";
+            }
+
+            @Override
+            public String getColumnName(int column) {
+                switch (column) {
+                    case 0:
+                        return messages.type();
+                    case 1:
+                        return messages.line();
+                    case 2:
+                        return messages.column();
+                    case 3:
+                        return messages.message();
+                }
+                return "n.a";
+            }
+        };
+        outputTable.setModel(tableModel);
+        outputTable.setPreferredScrollableViewportSize(outputTable.getPreferredSize());
+        outputTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+        outputTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+        outputTable.getColumnModel().getColumn(2).setPreferredWidth(50);
+        outputTable.getColumnModel().getColumn(3).setPreferredWidth(400);
+        outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         buttonXmlFile.setText(messages.choose() + "...");
         buttonXmlFile.addActionListener(new ActionListener() {
             @Override
@@ -69,13 +120,56 @@ public class ValidateXmlUI extends JPanel {
         buttonValidate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String inputXmlFileText = inputXmlFile.getText();
+                if(inputXmlFileText.trim().length() == 0) {
+                    JOptionPane.showMessageDialog(panelRef,
+                            messages.noXmlFile(),
+                            messages.error(),
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String inputSchemaFileText = inputSchemaFile.getText();
+                if(inputSchemaFileText.trim().length() == 0) {
+                    JOptionPane.showMessageDialog(panelRef,
+                            messages.noSchemaFile(),
+                            messages.error(),
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                File xmlFile = new File(inputXmlFileText);
+                if(!xmlFile.exists()) {
+                    JOptionPane.showMessageDialog(panelRef,
+                            messages.fileDoesNotExist(xmlFile.getAbsolutePath()),
+                            messages.error(),
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                File schemaFile = new File(inputSchemaFileText);
+                if(!schemaFile.exists()) {
+                    JOptionPane.showMessageDialog(panelRef,
+                            messages.fileDoesNotExist(schemaFile.getAbsolutePath()),
+                            messages.error(),
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                model.setXmlFile(xmlFile);
+                model.setSchemaFile(schemaFile);
                 model.validate();
+                tableModel.fireTableDataChanged();
+                outputTable.repaint();
+                if(model.getParserErrors().size() == 0) {
+                    JOptionPane.showMessageDialog(panelRef,
+                            messages.validationSuccessful(),
+                            messages.information(),
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
             }
         });
     }
 
     public JPanel buildUi() {
-        FormLayout formLayout = new FormLayout("right:p, 3dlu, fill:p:grow, 3dlu, p", "p, 3dlu, p, 3dlu, p");
+        FormLayout formLayout = new FormLayout("right:p, 3dlu, fill:p:grow, 3dlu, p", "p, 3dlu, p, 3dlu, p, 3dlu, fill:p:grow");
 
         CellConstraints cc = new CellConstraints();
         PanelBuilder builder = new PanelBuilder(formLayout);
@@ -90,6 +184,9 @@ public class ValidateXmlUI extends JPanel {
         builder.add(buttonSchemaFile, cc.xy(5, 3));
 
         builder.add(buttonValidate, cc.xy(1, 5));
+
+        JScrollPane scrollPane = new JScrollPane(outputTable);
+        builder.add(scrollPane, cc.xyw(1, 7, 5));
 
         return builder.getPanel();
     }

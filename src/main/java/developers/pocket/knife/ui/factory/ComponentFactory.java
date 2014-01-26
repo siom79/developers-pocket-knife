@@ -29,4 +29,9 @@ public class ComponentFactory {
     public JTextArea produceTextArea() {
         return new JTextArea();
     }
+
+    @Produces
+    public JTable produceTable() {
+        return new JTable();
+    }
 }
