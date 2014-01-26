@@ -7,6 +7,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import developers.pocket.knife.i18n.Messages;
 import jb5n.api.Message;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -17,23 +18,27 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ValidateXmlUI extends JPanel {
-    private ValidateXmlUIModel model;
-    private Messages messages;
-    private JTextField inputXmlFile = new JTextField();
-    private JButton buttonXmlFile = new JButton();
-    private JTextField inputSchemaFile = new JTextField();
-    private JButton buttonSchemaFile = new JButton();
-    private JButton buttonValidate = new JButton();
-
     @Inject
-    public ValidateXmlUI(ValidateXmlUIModel model, Messages messages) {
-        this.model = model;
-        this.messages = messages;
+    private ValidateXmlUIModel model;
+    @Inject
+    private Messages messages;
+    @Inject
+    private JTextField inputXmlFile;
+    @Inject
+    private JButton buttonXmlFile;
+    @Inject
+    private JTextField inputSchemaFile;
+    @Inject
+    private JButton buttonSchemaFile;
+    @Inject
+    private JButton buttonValidate;
+
+    @PostConstruct
+    public void postConstruct() {
         buildComponents();
     }
 
     private void buildComponents() {
-        inputXmlFile.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonXmlFile.setText(messages.choose() + "...");
         buttonXmlFile.addActionListener(new ActionListener() {
             @Override
@@ -47,7 +52,6 @@ public class ValidateXmlUI extends JPanel {
                 }
             }
         });
-        inputSchemaFile.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonSchemaFile.setText(messages.choose()+"...");
         buttonSchemaFile.addActionListener(new ActionListener() {
             @Override

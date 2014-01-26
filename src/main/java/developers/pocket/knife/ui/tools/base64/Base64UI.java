@@ -5,6 +5,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import developers.pocket.knife.i18n.Messages;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
@@ -12,17 +13,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Base64UI extends JPanel {
-    Messages messages;
-    private JTextArea inputField = new JTextArea();
-    private JTextArea outputField = new JTextArea();
-    private JButton buttonEncode = new JButton();
-    private JButton buttonDecode = new JButton();
-    private Base64UIModel presentationModel;
-
     @Inject
-    public Base64UI(Base64UIModel presentationModel, Messages messages) {
-        this.presentationModel = presentationModel;
-        this.messages = messages;
+    Messages messages;
+    @Inject
+    JTextArea inputField;
+    @Inject
+    JTextArea outputField;
+    @Inject
+    JButton buttonEncode;
+    @Inject
+    JButton buttonDecode;
+    @Inject
+    Base64UIModel presentationModel;
+
+    @PostConstruct
+    public void postConstruct() {
         buildComponents();
     }
 
