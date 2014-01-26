@@ -6,12 +6,10 @@ This tool aims to provide some useful tools for software developers.
 ##Motivation##
 
 A fully-fledged IDE provides a lot of features that can be used to develop software. But sometimes you need a special
-kind of tool. Then you search for the appropriate tool and if you have found it, you will use it to solve your task.
-Some time later on a different machine you are again searching for the same tool or the website you have used is no
-longer available.
+kind of tool. Then you search for the appropriate tool and hopefully find it. Some time later on a different machine
+you are again searching for the same tool or the website you have used is no longer available.
 
-In this tool I want to provide some useful tools that I needed from time to time. This way I will only have one tool
-to use next to my IDE.
+This project therefore aims to provide some useful tools that I needed from time to time.
 
 ##Features##
 
