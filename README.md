@@ -33,4 +33,6 @@ You can simply download the provided jar and start it with (a JRE >= 1.7 is requ
 
     java -jar developers-pocket-knife-0.0.1-complete.jar
 
- 
+##Download##
+
+You can download the latest version [here](https://github.com/siom79/developers-pocket-knife/releases).
