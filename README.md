@@ -6,7 +6,7 @@ This tool aims to provide some useful tools for software developers.
 ##Motivation##
 
 A fully-fledged IDE provides a lot of features that can be used to develop software. But sometimes you need a special
-kind of tool. Then you search for the appropriate tool and hopefully find it. Some time later on a different machine
+kind of tool. Then you search for the appropriate tool and hopefully you will find it. Some time later on a different machine
 you are again searching for the same tool or the website you have used is no longer available.
 
 This project therefore aims to provide some useful tools that I needed from time to time.

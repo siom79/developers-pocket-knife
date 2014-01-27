@@ -3,13 +3,13 @@ package developers.pocket.knife.ui.tools.validatexml;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import developers.pocket.knife.config.ConfigurationFactory;
 import developers.pocket.knife.i18n.Messages;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -32,6 +32,9 @@ public class ValidateXmlUI extends JPanel {
     private JButton buttonValidate;
     @Inject
     private JTable outputTable;
+    @Inject
+    @ConfigurationFactory.Configuration(key = ConfigurationFactory.ConfigurationKey.DefaultDirectory)
+    private String defaultDirectory;
 
     @PostConstruct
     public void postConstruct() {
@@ -94,12 +97,13 @@ public class ValidateXmlUI extends JPanel {
         buttonXmlFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser();
+                JFileChooser fc = new JFileChooser(new File(defaultDirectory));
                 int showOpenDialog = fc.showOpenDialog(getRootPane());
                 if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fc.getSelectedFile();
                     model.setXmlFile(selectedFile);
                     inputXmlFile.setText(selectedFile.getAbsolutePath());
+                    defaultDirectory = selectedFile.getAbsolutePath();
                 }
             }
         });
@@ -107,12 +111,13 @@ public class ValidateXmlUI extends JPanel {
         buttonSchemaFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser fc = new JFileChooser();
+                JFileChooser fc = new JFileChooser(new File(defaultDirectory));
                 int showOpenDialog = fc.showOpenDialog(getRootPane());
                 if (showOpenDialog == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fc.getSelectedFile();
                     model.setSchemaFile(selectedFile);
                     inputSchemaFile.setText(selectedFile.getAbsolutePath());
+                    defaultDirectory = selectedFile.getAbsolutePath();
                 }
             }
         });
