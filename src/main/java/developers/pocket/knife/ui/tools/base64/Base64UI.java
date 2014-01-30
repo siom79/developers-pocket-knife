@@ -31,7 +31,7 @@ public class Base64UI extends JPanel {
         buildComponents();
     }
 
-    private void buildComponents() {
+    void buildComponents() {
         inputField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonEncode.setText(messages.encode());
         buttonEncode.addActionListener(new ActionListener() {
