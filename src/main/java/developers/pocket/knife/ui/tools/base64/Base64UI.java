@@ -64,16 +64,16 @@ public class Base64UI extends JPanel {
         builder.setDefaultDialogBorder();
 
         builder.add(new JLabel(messages.input() + ":"), cc.xy(1, 1));
-        builder.add(inputField, cc.xy(1, 3));
+        builder.add(new JScrollPane(inputField), cc.xy(1, 3));
         builder.add(buildButtonPanel(), cc.xy(1, 5));
         builder.add(new JLabel(messages.output() + ":"), cc.xy(1, 7));
-        builder.add(outputField, cc.xy(1, 9));
+        builder.add(new JScrollPane(outputField), cc.xy(1, 9));
 
         return builder.getPanel();
     }
 
     public JPanel buildButtonPanel() {
-        FormLayout formLayout = new FormLayout("fill:p:grow, 3dlu, fill:p:grow", "p");
+        FormLayout formLayout = new FormLayout("p, 3dlu, p", "p");
 
         CellConstraints cc = new CellConstraints();
         PanelBuilder builder = new PanelBuilder(formLayout);
