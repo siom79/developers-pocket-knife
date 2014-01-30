@@ -1,7 +1,9 @@
 package developers.pocket.knife;
 
 import com.jgoodies.plaf.Options;
+import developers.pocket.knife.i18n.Messages;
 import developers.pocket.knife.ui.MainFrame;
+import jb5n.api.JB5n;
 import org.apache.log4j.PropertyConfigurator;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -24,12 +26,13 @@ public class App {
 
     private void run() {
         configure();
-        bootstrapDiContainter();
+        bootstrapDiContainer();
     }
 
     private void configure() {
         configureLogging();
         configureLookAndFeel();
+        configureGlobalExceptionHandling();
     }
 
     private void configureLogging() {
@@ -41,18 +44,31 @@ public class App {
         mainFrame.setVisible(true);
     }
 
-    private void bootstrapDiContainter() {
+    private void bootstrapDiContainer() {
         Weld weld = new Weld();
         WeldContainer weldContainer = weld.initialize();
         weldContainer.instance().select(App.class).get();
     }
 
-    private static void configureLookAndFeel() {
+    private void configureLookAndFeel() {
         try {
             String lafName = Options.getSystemLookAndFeelClassName();
             UIManager.setLookAndFeel(lafName);
         } catch (Exception e) {
             LOGGER.error("Setting look and feel failed: " + e.getMessage(), e);
         }
+    }
+
+    public void configureGlobalExceptionHandling() {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Messages messages = JB5n.createInstance(Messages.class);
+                JOptionPane.showMessageDialog(null,
+                        messages.internalError()+": "+e.getLocalizedMessage(),
+                        messages.error(),
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 }

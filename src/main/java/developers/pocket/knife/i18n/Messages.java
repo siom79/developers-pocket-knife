@@ -82,4 +82,7 @@ public interface Messages {
 
     @Message(defaultMessage = "Validation was successful")
     String validationSuccessful();
+
+    @Message(defaultMessage = "Internal error")
+    String internalError();
 }
