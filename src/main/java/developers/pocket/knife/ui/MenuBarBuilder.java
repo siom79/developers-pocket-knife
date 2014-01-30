@@ -4,6 +4,7 @@ import developers.pocket.knife.i18n.Messages;
 import developers.pocket.knife.lifecycle.LifeCycle;
 import developers.pocket.knife.ui.tools.base64.Base64UI;
 import developers.pocket.knife.ui.tools.base64.Base64UIModel;
+import developers.pocket.knife.ui.tools.classfinder.ClassFinderUI;
 import developers.pocket.knife.ui.tools.validatexml.ValidateXmlUI;
 
 import javax.enterprise.inject.Instance;
@@ -22,6 +23,8 @@ public class MenuBarBuilder {
     @Inject
     Instance<Base64UI> base64UIInstance;
     @Inject
+    Instance<ClassFinderUI> findClassUIInstance;
+    @Inject
     Instance<ValidateXmlUI> validateXmlUIInstance;
 
     public JMenuBar createMenuBar(Container contentPane) {
@@ -32,11 +35,28 @@ public class MenuBarBuilder {
     }
 
     private JMenu createToolsMenu(Container contentPane) {
-        JMenu fileMenu = new JMenu(messages.tools());
-        fileMenu.setMnemonic(KeyEvent.VK_T);
-        fileMenu.add(createToolsBase64MenuItem(contentPane));
-        fileMenu.add(createToolsValidateXmlMenuItem(contentPane));
-        return fileMenu;
+        JMenu menu = new JMenu(messages.tools());
+        menu.setMnemonic(KeyEvent.VK_T);
+        menu.add(createToolsBase64MenuItem(contentPane));
+        menu.add(createToolsValidateXmlMenuItem(contentPane));
+        menu.add(createToolsFindClassItem(contentPane));
+        return menu;
+    }
+
+    private JMenuItem createToolsFindClassItem(final Container contentPane) {
+        JMenuItem menuItem = new JMenuItem(messages.findClass(), KeyEvent.VK_C);
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                replacePanel(contentPane, new PanelFactory() {
+                    @Override
+                    public JPanel createPanel() {
+                        return findClassUIInstance.get().buildUI();
+                    }
+                });
+            }
+        });
+        return menuItem;
     }
 
     private JMenuItem createToolsValidateXmlMenuItem(final Container contentPane) {

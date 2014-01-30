@@ -85,4 +85,10 @@ public interface Messages {
 
     @Message(defaultMessage = "Internal error")
     String internalError();
+
+    @Message(defaultMessage = "Directory")
+    String directory();
+
+    @Message(defaultMessage = "Find class")
+    String findClass();
 }
