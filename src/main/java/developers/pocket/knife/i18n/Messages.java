@@ -3,12 +3,10 @@ package developers.pocket.knife.i18n;
 import jb5n.api.Message;
 import jb5n.api.MessageResource;
 
-import javax.swing.*;
-
 @MessageResource(resourceBundleName = "messages")
 public interface Messages {
 
-    @Message(defaultMessage = "Developer's Knife")
+    @Message(defaultMessage = "Developer's Pocket Knife")
     String title();
 
     @Message(defaultMessage = "File")
@@ -91,4 +89,25 @@ public interface Messages {
 
     @Message(defaultMessage = "Find class")
     String findClass();
+
+    @Message(defaultMessage = "Class name")
+    String className();
+
+    @Message(defaultMessage = "Search")
+    String search();
+
+    @Message(defaultMessage = "You haven't provided any directory.")
+    String noDirectory();
+
+    @Message(defaultMessage = "You haven't provided any class name.")
+    String noClassName();
+
+    @Message(defaultMessage = "Location")
+    String location();
+
+    @Message(defaultMessage = "Path in zip file")
+    String zipFilePath();
+
+    @Message(defaultMessage = "Stop")
+    String stop();
 }
