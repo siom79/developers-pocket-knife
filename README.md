@@ -36,6 +36,10 @@ A screenshot showing the class finder tool:
 
 <img src="https://raw.github.com/siom79/developers-pocket-knife/master/doc/screenshot_classfinder.png" alt="Class Finder tool"></img>
 
+A screenshot showing the base64 tool:
+
+<img src="https://raw.github.com/siom79/developers-pocket-knife/master/doc/screenshot_base64.png" alt="Base64 Tool"></img>
+
 ##Download##
 
 You can download the latest version [here](https://github.com/siom79/developers-pocket-knife/releases).
