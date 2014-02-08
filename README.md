@@ -34,7 +34,7 @@ You can simply download the provided jar and start it with (a JRE >= 1.7 is requ
 
 A screenshot showing the class finder tool:
 
-<img src="https://github.com/siom79/developers-pocket-knife/tree/master/doc/screenshot_classfinder.png" alt="Class Finder tool"></img>
+<img src="https://raw.github.com/siom79/developers-pocket-knife/master/doc/screenshot_classfinder.png" alt="Class Finder tool"></img>
 
 ##Download##
 
