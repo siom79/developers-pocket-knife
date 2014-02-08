@@ -16,7 +16,7 @@ This project therefore aims to provide some useful tools that I needed from time
 The developers-pocket-knife currently provides these tools:
 * A tool that encodes a given string in the **Base64** scheme or decodes a given Base64 string
 * A tool that validates an **XML schema validation** with detailed listing of warnings/errors
-* A tool that searches for class files within a folder structure with jar files and again recursively in these jar files
+* A tool that **finds class files** within a folder structure with jar files and again recursively in these jar files
 
 ##Planned features##
 
