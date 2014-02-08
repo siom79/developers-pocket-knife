@@ -57,10 +57,10 @@ public interface Messages {
     @Message(defaultMessage = "Error")
     String error();
 
-    @Message(defaultMessage = "You haven't provided any XML file.")
+    @Message(defaultMessage = "You haven't provided a XML file.")
     String noXmlFile();
 
-    @Message(defaultMessage = "You haven't provided any schema file.")
+    @Message(defaultMessage = "You haven't provided a schema file.")
     String noSchemaFile();
 
     @Message(defaultMessage = "Type")
@@ -96,10 +96,10 @@ public interface Messages {
     @Message(defaultMessage = "Search")
     String search();
 
-    @Message(defaultMessage = "You haven't provided any directory.")
+    @Message(defaultMessage = "You haven't provided a directory.")
     String noDirectory();
 
-    @Message(defaultMessage = "You haven't provided any class name.")
+    @Message(defaultMessage = "You haven't provided a class name.")
     String noClassName();
 
     @Message(defaultMessage = "Location")

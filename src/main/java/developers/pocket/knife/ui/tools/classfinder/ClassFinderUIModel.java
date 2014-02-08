@@ -8,10 +8,9 @@ import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.LinkedList;
 import java.util.List;
 
-public class ClassFinderUIModel extends SwingWorker<List<SearchResult>, List<SearchResult>> {
+public class ClassFinderUIModel extends SwingWorker<Void, List<SearchResult>> {
     private String directory;
     private String classNameCriteria;
 
@@ -20,17 +19,16 @@ public class ClassFinderUIModel extends SwingWorker<List<SearchResult>, List<Sea
         this.classNameCriteria = classNameCriteria;
     }
 
-    public List<SearchResult> search(final String directory, final String inputClassNameText) {
+    public void search(final String directory, final String inputClassNameText) {
         try {
-            final List<SearchResult> searchResults = new LinkedList<>();
             FileVisitor<? super Path> visitor = new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (!isCancelled()) {
-                        Optional<List<SearchResult>> listOptional = FileProcessor.processPath(file, inputClassNameText);
+                        SearchCriteria searchCriteria = new SearchCriteria(inputClassNameText);
+                        Optional<List<SearchResult>> listOptional = FileProcessor.processPath(file, searchCriteria);
                         if (listOptional.isPresent()) {
                             List<SearchResult> results = listOptional.get();
-                            searchResults.addAll(results);
                             publish(results);
                         }
                     } else {
@@ -40,14 +38,16 @@ public class ClassFinderUIModel extends SwingWorker<List<SearchResult>, List<Sea
                 }
             };
             Files.walkFileTree(Paths.get(directory), visitor);
-            return searchResults;
+            List<SearchResult> futureResults = FileProcessor.getFutureResults();
+            publish(futureResults);
         } catch (IOException e) {
             throw new TechnicalException(TechnicalException.Reason.IoError, e);
         }
     }
 
     @Override
-    protected List<SearchResult> doInBackground() throws Exception {
-        return search(directory, classNameCriteria);
+    protected Void doInBackground() throws Exception {
+        search(directory, classNameCriteria);
+        return null;
     }
 }
