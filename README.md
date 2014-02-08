@@ -16,20 +16,25 @@ This project therefore aims to provide some useful tools that I needed from time
 The developers-pocket-knife currently provides these tools:
 * A tool that encodes a given string in the **Base64** scheme or decodes a given Base64 string
 * A tool that validates an **XML schema validation** with detailed listing of warnings/errors
-
+* A tool that searches for class files within a folder structure with jar files and again recursively in these jar files
 
 ##Planned features##
 
 The following features are planned and may be provided by future releases:
 * A tool to test regular expressions
 * A tool to compute digest values for files (MD5, SHA-1, etc)
-* A tool to search for class files within a folder structure with jar files
 
 ##Usage##
 
 You can simply download the provided jar and start it with (a JRE >= 1.7 is required):
 
-    java -jar developers-pocket-knife-0.0.1-complete.jar
+    java -jar developers-pocket-knife-0.1.0-complete.jar
+
+##Screenshots##
+
+A screenshot showing the class finder tool:
+
+![Class Finder Tool](https://github.com/siom79/developers-pocket-knife/tree/master/doc/screenshot_classfinder.png "Class Finder tool")
 
 ##Download##
 
