@@ -38,8 +38,6 @@ public class ClassFinderUIModel extends SwingWorker<Void, List<SearchResult>> {
                 }
             };
             Files.walkFileTree(Paths.get(directory), visitor);
-            List<SearchResult> futureResults = FileProcessor.getFutureResults();
-            publish(futureResults);
         } catch (IOException e) {
             throw new TechnicalException(TechnicalException.Reason.IoError, e);
         }

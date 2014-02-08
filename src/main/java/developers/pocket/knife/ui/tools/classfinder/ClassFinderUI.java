@@ -93,58 +93,17 @@ public class ClassFinderUI extends JPanel {
                 }
             }
         });
+        inputClassName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                performSearch(panelRef, tableModel);
+            }
+        });
         buttonSearch.setText(messages.search());
         buttonSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final String inputDirectoryText = inputDirectory.getText();
-                if (inputDirectoryText.trim().length() == 0) {
-                    JOptionPane.showMessageDialog(panelRef,
-                            messages.noDirectory(),
-                            messages.error(),
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                File directoryFile = new File(inputDirectoryText);
-                if (!directoryFile.exists()) {
-                    JOptionPane.showMessageDialog(panelRef,
-                            messages.fileDoesNotExist(directoryFile.getAbsolutePath()),
-                            messages.error(),
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                final String inputClassNameText = inputClassName.getText();
-                if (inputClassNameText.trim().length() == 0) {
-                    JOptionPane.showMessageDialog(panelRef,
-                            messages.noClassName(),
-                            messages.error(),
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                try {
-                    searchResults.clear();
-                    tableModel.fireTableDataChanged();
-                    buttonStop.setEnabled(true);
-                    buttonSearch.setEnabled(false);
-                    model = new ClassFinderUIModel(inputDirectoryText, inputClassNameText) {
-                        @Override
-                        protected void done() {
-                            buttonStop.setEnabled(false);
-                            buttonSearch.setEnabled(true);
-                        }
-
-                        @Override
-                        protected void process(List<List<SearchResult>> chunks) {
-                            for (List<SearchResult> chunk : chunks) {
-                                searchResults.addAll(chunk);
-                            }
-                            tableModel.fireTableDataChanged();
-                        }
-                    };
-                    model.execute();
-                } catch (Exception e1) {
-                    throw new TechnicalException(TechnicalException.Reason.InternalError);
-                }
+                performSearch(panelRef, tableModel);
             }
         });
         buttonStop.setText(messages.stop());
@@ -162,6 +121,57 @@ public class ClassFinderUI extends JPanel {
         outputTable.setModel(tableModel);
         outputTable.setPreferredScrollableViewportSize(outputTable.getPreferredSize());
         outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+    }
+
+    private void performSearch(JPanel panelRef, final AbstractTableModel tableModel) {
+        final String inputDirectoryText = inputDirectory.getText();
+        if (inputDirectoryText.trim().length() == 0) {
+            JOptionPane.showMessageDialog(panelRef,
+                    messages.noDirectory(),
+                    messages.error(),
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        File directoryFile = new File(inputDirectoryText);
+        if (!directoryFile.exists()) {
+            JOptionPane.showMessageDialog(panelRef,
+                    messages.fileDoesNotExist(directoryFile.getAbsolutePath()),
+                    messages.error(),
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        final String inputClassNameText = inputClassName.getText();
+        if (inputClassNameText.trim().length() == 0) {
+            JOptionPane.showMessageDialog(panelRef,
+                    messages.noClassName(),
+                    messages.error(),
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            searchResults.clear();
+            tableModel.fireTableDataChanged();
+            buttonStop.setEnabled(true);
+            buttonSearch.setEnabled(false);
+            model = new ClassFinderUIModel(inputDirectoryText, inputClassNameText) {
+                @Override
+                protected void done() {
+                    buttonStop.setEnabled(false);
+                    buttonSearch.setEnabled(true);
+                }
+
+                @Override
+                protected void process(List<List<SearchResult>> chunks) {
+                    for (List<SearchResult> chunk : chunks) {
+                        searchResults.addAll(chunk);
+                    }
+                    tableModel.fireTableDataChanged();
+                }
+            };
+            model.execute();
+        } catch (Exception e1) {
+            throw new TechnicalException(TechnicalException.Reason.InternalError);
+        }
     }
 
     public JPanel buildUI() {
