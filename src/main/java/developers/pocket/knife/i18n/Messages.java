@@ -110,4 +110,16 @@ public interface Messages {
 
     @Message(defaultMessage = "Stop")
     String stop();
+
+    @Message(defaultMessage = "Info")
+    String info();
+
+    @Message(defaultMessage = "About")
+    String about();
+
+    @Message(defaultMessage = "Version")
+    String version();
+
+    @Message(defaultMessage = "Build time")
+    String timestamp();
 }

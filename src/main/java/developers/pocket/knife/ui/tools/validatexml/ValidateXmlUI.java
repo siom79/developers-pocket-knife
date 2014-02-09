@@ -33,7 +33,7 @@ public class ValidateXmlUI extends JPanel {
     @Inject
     private JTable outputTable;
     @Inject
-    @ConfigurationFactory.Configuration(key = ConfigurationFactory.ConfigurationKey.DefaultDirectory)
+    @ConfigurationFactory.ConfigurationValue(key = ConfigurationFactory.ConfigurationKey.DefaultDirectory)
     private String defaultDirectory;
 
     @PostConstruct

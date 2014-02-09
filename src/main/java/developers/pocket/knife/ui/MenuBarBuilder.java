@@ -1,9 +1,9 @@
 package developers.pocket.knife.ui;
 
+import developers.pocket.knife.config.ConfigurationFactory;
 import developers.pocket.knife.i18n.Messages;
 import developers.pocket.knife.lifecycle.LifeCycle;
 import developers.pocket.knife.ui.tools.base64.Base64UI;
-import developers.pocket.knife.ui.tools.base64.Base64UIModel;
 import developers.pocket.knife.ui.tools.classfinder.ClassFinderUI;
 import developers.pocket.knife.ui.tools.validatexml.ValidateXmlUI;
 
@@ -26,12 +26,41 @@ public class MenuBarBuilder {
     Instance<ClassFinderUI> findClassUIInstance;
     @Inject
     Instance<ValidateXmlUI> validateXmlUIInstance;
+    @Inject
+    @ConfigurationFactory.ConfigurationValue(key = ConfigurationFactory.ConfigurationKey.Version)
+    String version;
+    @Inject
+    @ConfigurationFactory.ConfigurationValue(key = ConfigurationFactory.ConfigurationKey.BuildTimestamp)
+    String buildTimestamp;
 
     public JMenuBar createMenuBar(Container contentPane) {
         JMenuBar jMenuBar = new JMenuBar();
         jMenuBar.add(createFileMenu());
         jMenuBar.add(createToolsMenu(contentPane));
+        jMenuBar.add(createInfoMenu(contentPane));
         return jMenuBar;
+    }
+
+    private JMenu createInfoMenu(Container contentPane) {
+        JMenu menu = new JMenu(messages.info());
+        menu.setMnemonic(KeyEvent.VK_I);
+        menu.add(createAboutMenuItem(contentPane));
+        return menu;
+    }
+
+    private JMenuItem createAboutMenuItem(final Container contentPane) {
+        JMenuItem menuItem = new JMenuItem(messages.about());
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(contentPane,
+                        messages.version() + ": " + version + "\n" +
+                                messages.timestamp() + ": " + buildTimestamp,
+                        messages.about(),
+                        JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        return menuItem;
     }
 
     private JMenu createToolsMenu(Container contentPane) {

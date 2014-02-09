@@ -1,5 +1,8 @@
 package developers.pocket.knife.config;
 
+import jb5n.api.JB5n;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -11,25 +14,29 @@ import java.lang.annotation.Target;
 public class ConfigurationFactory {
 
     public enum ConfigurationKey {
-        DefaultDirectory
+        DefaultDirectory, Version, BuildTimestamp
     }
 
     @Target({ElementType.FIELD, ElementType.METHOD})
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface Configuration {
+    public @interface ConfigurationValue {
         ConfigurationKey key();
     }
 
     @Produces
     public String produceConfigurationValue(InjectionPoint injectionPoint) {
         Annotated annotated = injectionPoint.getAnnotated();
-        Configuration annotation = annotated.getAnnotation(Configuration.class);
+        ConfigurationValue annotation = annotated.getAnnotation(ConfigurationValue.class);
         if (annotation != null) {
             ConfigurationKey key = annotation.key();
             if (key != null) {
                 switch (key) {
                     case DefaultDirectory:
                         return System.getProperty("user.dir");
+                    case Version:
+                        return JB5n.createInstance(Configuration.class).version();
+                    case BuildTimestamp:
+                        return JB5n.createInstance(Configuration.class).timestamp();
                 }
             }
         }
