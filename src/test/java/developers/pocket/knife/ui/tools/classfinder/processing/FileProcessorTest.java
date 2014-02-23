@@ -29,11 +29,13 @@ public class FileProcessorTest {
     public void testSelfFind() throws IOException {
         String userDir = System.getProperty("user.dir");
         final SearchCriteria searchCriteria = new SearchCriteria(FileProcessor.class.getSimpleName());
+        searchCriteria.setContains(true);
         final List<SearchResult> searchResults = new LinkedList<>();
         Files.walkFileTree(Paths.get(userDir), new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Optional<List<SearchResult>> listOptional = FileProcessor.processPath(file, searchCriteria);
+                FileProcessor fileProcessor = new FileProcessor();
+                Optional<List<SearchResult>> listOptional = fileProcessor.processPath(file, searchCriteria);
                 if(listOptional.isPresent()) {
                     searchResults.addAll(listOptional.get());
                 }

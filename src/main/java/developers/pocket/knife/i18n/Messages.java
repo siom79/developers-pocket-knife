@@ -122,4 +122,10 @@ public interface Messages {
 
     @Message(defaultMessage = "Build time")
     String timestamp();
+
+    @Message(defaultMessage = "case sensitive")
+    String caseSensitive();
+
+    @Message(defaultMessage = "contains")
+    String contains();
 }

@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 public class SearchCriteria {
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchCriteria.class);
     private final String className;
+    private boolean contains = false;
+    private boolean caseSensitive = false;
 
     public SearchCriteria(String className) {
         this.className = className;
@@ -17,10 +19,37 @@ public class SearchCriteria {
 
     public boolean matches(String fileName) {
         boolean match = false;
-        if(fileName.contains(className)) {
-            match = true;
+        String tempClassName = className;
+        if (!caseSensitive) {
+            fileName = fileName.toLowerCase();
+            tempClassName = tempClassName.toLowerCase();
+        }
+        if (contains) {
+            if (fileName.contains(tempClassName)) {
+                match = true;
+            }
+        } else {
+            if (fileName.equals(tempClassName)) {
+                match = true;
+            }
         }
         LOGGER.debug("matches(): {} contains {} = {}", fileName, className, match);
         return match;
+    }
+
+    public boolean isContains() {
+        return contains;
+    }
+
+    public void setContains(boolean contains) {
+        this.contains = contains;
+    }
+
+    public boolean isCaseSensitive() {
+        return caseSensitive;
+    }
+
+    public void setCaseSensitive(boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
     }
 }

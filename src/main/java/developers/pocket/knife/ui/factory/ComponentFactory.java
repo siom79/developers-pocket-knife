@@ -34,4 +34,14 @@ public class ComponentFactory {
     public JTable produceTable() {
         return new JTable();
     }
+
+    @Produces
+    public JCheckBox produceCheckBox() {
+        return new JCheckBox();
+    }
+
+    @Produces
+    public JLabel produceLabel() {
+        return new JLabel();
+    }
 }

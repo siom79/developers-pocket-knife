@@ -33,6 +33,12 @@ public class ClassFinderUI extends JPanel {
     @Inject
     private JTable outputTable;
     @Inject
+    private JCheckBox checkBoxCaseSensitive;
+    @Inject
+    private JCheckBox checkBoxContains;
+    @Inject
+    private JLabel outputLocation;
+    @Inject
     @ConfigurationFactory.ConfigurationValue(key = ConfigurationFactory.ConfigurationKey.DefaultDirectory)
     private String defaultDirectory;
     ClassFinderUIModel model;
@@ -99,6 +105,8 @@ public class ClassFinderUI extends JPanel {
                 performSearch(panelRef, tableModel);
             }
         });
+        checkBoxCaseSensitive.setText(messages.caseSensitive());
+        checkBoxContains.setText(messages.contains());
         buttonSearch.setText(messages.search());
         buttonSearch.addActionListener(new ActionListener() {
             @Override
@@ -116,6 +124,7 @@ public class ClassFinderUI extends JPanel {
                 }
                 buttonStop.setEnabled(false);
                 buttonSearch.setEnabled(true);
+                outputLocation.setText("");
             }
         });
         outputTable.setModel(tableModel);
@@ -153,11 +162,14 @@ public class ClassFinderUI extends JPanel {
             tableModel.fireTableDataChanged();
             buttonStop.setEnabled(true);
             buttonSearch.setEnabled(false);
-            model = new ClassFinderUIModel(inputDirectoryText, inputClassNameText) {
+            boolean caseSensitive = checkBoxCaseSensitive.isSelected();
+            boolean contains = checkBoxContains.isSelected();
+            model = new ClassFinderUIModel(inputDirectoryText, inputClassNameText, caseSensitive, contains) {
                 @Override
                 protected void done() {
                     buttonStop.setEnabled(false);
                     buttonSearch.setEnabled(true);
+                    outputLocation.setText("");
                 }
 
                 @Override
@@ -175,7 +187,7 @@ public class ClassFinderUI extends JPanel {
     }
 
     public JPanel buildUI() {
-        FormLayout formLayout = new FormLayout("right:p, 3dlu, fill:p:grow, 3dlu, p", "p, 3dlu, p, 3dlu, p, 3dlu, fill:p:grow");
+        FormLayout formLayout = new FormLayout("right:p, 3dlu, fill:p:grow, 3dlu, p", "p, 3dlu, p, 3dlu, p, 3dlu, p, 3dlu, fill:p:grow, 3dlu, p");
 
         CellConstraints cc = new CellConstraints();
         PanelBuilder builder = new PanelBuilder(formLayout);
@@ -188,9 +200,12 @@ public class ClassFinderUI extends JPanel {
         builder.add(new JLabel(messages.className() + ":"), cc.xy(1, 3));
         builder.add(inputClassName, cc.xyw(3, 3, 3));
 
-        builder.add(buildButtonPanel(), cc.xyw(1, 5, 5));
+        builder.add(buildSearchCriteriaPanel(), cc.xyw(3, 5, 3));
+        builder.add(buildButtonPanel(), cc.xyw(1, 7, 5));
 
-        builder.add(new JScrollPane(outputTable), cc.xyw(1, 7, 5));
+        builder.add(new JScrollPane(outputTable), cc.xyw(1, 9, 5));
+
+        builder.add(outputLocation, cc.xyw(1, 11, 5));
 
         return builder.getPanel();
     }
@@ -203,6 +218,18 @@ public class ClassFinderUI extends JPanel {
 
         builder.add(buttonSearch, cc.xy(1, 1));
         builder.add(buttonStop, cc.xy(3, 1));
+
+        return builder.getPanel();
+    }
+
+    public JPanel buildSearchCriteriaPanel() {
+        FormLayout formLayout = new FormLayout("p, 3dlu, p", "p");
+
+        CellConstraints cc = new CellConstraints();
+        PanelBuilder builder = new PanelBuilder(formLayout);
+
+        builder.add(checkBoxCaseSensitive, cc.xy(1, 1));
+        builder.add(checkBoxContains, cc.xy(3, 1));
 
         return builder.getPanel();
     }
