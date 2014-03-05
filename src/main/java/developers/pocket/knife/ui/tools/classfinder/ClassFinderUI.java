@@ -89,6 +89,13 @@ public class ClassFinderUI extends JPanel {
         buttonDirectory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String currentInputDir = inputDirectory.getText();
+                if(currentInputDir != null && currentInputDir.trim().length() > 0) {
+                    File curInputDirFile = new File(currentInputDir);
+                    if(curInputDirFile.exists()) {
+                        defaultDirectory = currentInputDir;
+                    }
+                }
                 JFileChooser fc = new JFileChooser(new File(defaultDirectory));
                 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 int showOpenDialog = fc.showOpenDialog(getRootPane());
