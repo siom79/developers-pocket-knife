@@ -204,7 +204,7 @@ public class ClassFinderUI extends JPanel {
         builder.add(inputDirectory, cc.xy(3, 1));
         builder.add(buttonDirectory, cc.xy(5, 1));
 
-        builder.add(new JLabel(messages.className() + ":"), cc.xy(1, 3));
+        builder.add(new JLabel(messages.fileName() + ":"), cc.xy(1, 3));
         builder.add(inputClassName, cc.xyw(3, 3, 3));
 
         builder.add(buildSearchCriteriaPanel(), cc.xyw(3, 5, 3));

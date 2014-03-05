@@ -87,11 +87,11 @@ public interface Messages {
     @Message(defaultMessage = "Directory")
     String directory();
 
-    @Message(defaultMessage = "Find class")
-    String findClass();
+    @Message(defaultMessage = "Find file")
+    String findFile();
 
-    @Message(defaultMessage = "Class name")
-    String className();
+    @Message(defaultMessage = "File name")
+    String fileName();
 
     @Message(defaultMessage = "Search")
     String search();

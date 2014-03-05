@@ -73,7 +73,7 @@ public class MenuBarBuilder {
     }
 
     private JMenuItem createToolsFindClassItem(final Container contentPane) {
-        JMenuItem menuItem = new JMenuItem(messages.findClass(), KeyEvent.VK_C);
+        JMenuItem menuItem = new JMenuItem(messages.findFile(), KeyEvent.VK_C);
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
