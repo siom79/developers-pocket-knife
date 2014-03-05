@@ -4,6 +4,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import developers.pocket.knife.i18n.Messages;
+import developers.pocket.knife.ui.factory.ComponentFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -17,7 +18,7 @@ public class Base64UI extends JPanel {
     Messages messages;
     @Inject
     JTextArea inputField;
-    @Inject
+    @Inject @ComponentFactory.NotEditable
     JTextArea outputField;
     @Inject
     JButton buttonEncode;
@@ -51,9 +52,6 @@ public class Base64UI extends JPanel {
                 outputField.setText(presentationModel.getOutputText());
             }
         });
-        outputField.setEditable(false);
-        outputField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        outputField.setBackground(new Color(245, 245, 245));
     }
 
     public JPanel buildUi() {

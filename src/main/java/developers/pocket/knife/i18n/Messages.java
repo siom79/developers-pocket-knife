@@ -128,4 +128,19 @@ public interface Messages {
 
     @Message(defaultMessage = "contains")
     String contains();
+
+    @Message(defaultMessage = "Regular expression")
+    String regex();
+
+    @Message(defaultMessage = "Test reg. expression")
+    String testRegEx();
+
+    @Message(defaultMessage = "Apply")
+    String apply();
+
+    @Message(defaultMessage = "Please provide a regular expression.")
+    String noRegEx();
+
+    @Message(defaultMessage = "Please provide some test data.")
+    String noTestData();
 }

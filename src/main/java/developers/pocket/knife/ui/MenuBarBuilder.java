@@ -5,6 +5,7 @@ import developers.pocket.knife.i18n.Messages;
 import developers.pocket.knife.lifecycle.LifeCycle;
 import developers.pocket.knife.ui.tools.base64.Base64UI;
 import developers.pocket.knife.ui.tools.classfinder.ClassFinderUI;
+import developers.pocket.knife.ui.tools.regex.RegExUI;
 import developers.pocket.knife.ui.tools.validatexml.ValidateXmlUI;
 
 import javax.enterprise.inject.Instance;
@@ -26,6 +27,8 @@ public class MenuBarBuilder {
     Instance<ClassFinderUI> findClassUIInstance;
     @Inject
     Instance<ValidateXmlUI> validateXmlUIInstance;
+    @Inject
+    Instance<RegExUI> regExUIInstance;
     @Inject
     @ConfigurationFactory.ConfigurationValue(key = ConfigurationFactory.ConfigurationKey.Version)
     String version;
@@ -69,7 +72,24 @@ public class MenuBarBuilder {
         menu.add(createToolsBase64MenuItem(contentPane));
         menu.add(createToolsValidateXmlMenuItem(contentPane));
         menu.add(createToolsFindClassItem(contentPane));
+        menu.add(createToolsRegExItem(contentPane));
         return menu;
+    }
+
+    private JMenuItem createToolsRegExItem(final Container contentPane) {
+        JMenuItem menuItem = new JMenuItem(messages.testRegEx(), KeyEvent.VK_R);
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                replacePanel(contentPane, new PanelFactory() {
+                    @Override
+                    public JPanel createPanel() {
+                        return regExUIInstance.get().buildUI();
+                    }
+                });
+            }
+        });
+        return menuItem;
     }
 
     private JMenuItem createToolsFindClassItem(final Container contentPane) {
