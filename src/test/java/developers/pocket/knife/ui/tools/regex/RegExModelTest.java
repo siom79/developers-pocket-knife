@@ -16,8 +16,7 @@ public class RegExModelTest {
     }
 
     @Test
-    @Ignore("TODO")
     public void testGroups() {
-        assertThat(subject.applyRegEx("a(s)*", "as"), is("1. match:as 1. group:s\n"));
+        assertThat(subject.applyRegEx("([a-zA-Z0-9]+)\\.(html)", "http://www.softwerkskammer.org/index.html").trim(), is("http://www.softwerkskammer.org/index.html\n\t1. match:index.html\n\t\t1. group:index\n\t\t2. group:html".trim()));
     }
 }
