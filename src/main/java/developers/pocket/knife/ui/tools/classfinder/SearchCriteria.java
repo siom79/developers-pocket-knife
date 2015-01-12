@@ -28,12 +28,13 @@ public class SearchCriteria {
             if (fileName.contains(tempClassName)) {
                 match = true;
             }
+            LOGGER.debug("matches(): {} contains {} = {}", fileName, tempClassName, match);
         } else {
             if (fileName.equals(tempClassName)) {
                 match = true;
             }
+            LOGGER.debug("matches(): {} equals {} = {}", fileName, tempClassName, match);
         }
-        LOGGER.debug("matches(): {} contains {} = {}", fileName, className, match);
         return match;
     }
 
